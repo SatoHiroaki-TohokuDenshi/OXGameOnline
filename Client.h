@@ -15,12 +15,13 @@ public:
 	//ゲーム開始
 	void PlayGame();
 
+	//解放
+	bool Release();
+
+private:
 	//送信
 	bool Send(unsigned int value);
 
 	//受信
 	bool Recv(unsigned int* value);
-
-	//解放
-	bool Release();
 };

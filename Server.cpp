@@ -185,9 +185,13 @@ void Server::PlayGame() {
 		if (ox.IsWin())			std::cout << "You Win!" << std::endl;
 		else if (ox.IsLose())	std::cout << "You Lose!" << std::endl;
 		else					std::cout << "Draw!" << std::endl;
+		std::cout << "push enter to next...";
+		std::getchar();
 	}
 	else {
 		std::cout << "Missing the Connection" << std::endl;
+		std::cout << "push enter to next...";
+		std::getchar();
 	}
 }
 

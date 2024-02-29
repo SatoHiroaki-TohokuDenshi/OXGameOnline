@@ -19,9 +19,10 @@ public:
 	//‘—M
 	bool Send(unsigned int value);
 	
-	//óM
-	bool Recv(unsigned int* value);
-
 	//‰ğ•ú
 	bool Release();
+
+private:
+	//óM
+	bool Recv(unsigned int* value);
 };

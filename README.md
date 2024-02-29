@@ -7,4 +7,5 @@
 Input Numberが表示されたら、1～9のいずれかの数字を入力する。
 
 ### 動画
-[動画リンク](./movie.mp4)
+[動画(クライアント)](./movie_client.mp4)  
+[動画(サーバ)](./movie_server.mp4)

@@ -10,9 +10,11 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OXGame.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OXGame.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="Client.h" />
   </ItemGroup>
 </Project>

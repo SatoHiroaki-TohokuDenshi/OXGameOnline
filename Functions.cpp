@@ -54,7 +54,7 @@ int Client() {
 	}
 	std::cout << "Success: connect()" << std::endl;
 
-	PlayGame(sock);
+	PlayClient(sock);
 
 	// ‘—óM‚Æ‚à‚ÉØ’f
 	// shutdown(sock, 0x02);
@@ -150,7 +150,7 @@ int Server() {
 
 
 	// ‘—óM•”
-	PlayGame(sock);
+	PlayServer(sock);
 
 	// ‘—óM‚Æ‚à‚ÉØ’f
 	// shutdown(sock, 0x02);
@@ -225,7 +225,7 @@ bool Recv(int sock, unsigned int* value)
 	return true;
 }
 
-void PlayGame(int& sock) {
+void PlayClient(int& sock) {
 	OXGame ox(CELLTYPE::CELL_O);
 	bool IsSuccess = true;
 	unsigned int value;
@@ -246,6 +246,42 @@ void PlayGame(int& sock) {
 		IsSuccess = Recv(sock, &value);
 		if (!IsSuccess)	break;
 		ox.UpdateOtherSide(value);
+		if (ox.IsFinish())	break;
+	}
+
+	if (IsSuccess) {
+		std::system("cls");
+		ox.Print();
+		if (ox.IsWin())			std::cout << "You Win!" << std::endl;
+		else if (ox.IsLose())	std::cout << "You Lose!" << std::endl;
+		else					std::cout << "Draw!" << std::endl;
+	}
+	else {
+		std::cout << "Missing the Connection" << std::endl;
+	}
+}
+
+void PlayServer(int& sock) {
+	OXGame ox(CELLTYPE::CELL_X);
+	bool IsSuccess = true;
+	unsigned int value;
+
+	while (true) {
+		// ‘Šè‚Ì“ü—Í
+		std::system("cls");
+		ox.Print();
+		IsSuccess = Recv(sock, &value);
+		if (!IsSuccess)	break;
+		ox.UpdateOtherSide(value);
+		if (ox.IsFinish())	break;
+
+		// ©•ª‚Ì“ü—Í
+		std::system("cls");
+		ox.Print();
+		value = ox.Input();
+		ox.UpdateMySide(value);
+		IsSuccess = Send(sock, value);
+		if (!IsSuccess)	break;
 		if (ox.IsFinish())	break;
 	}
 

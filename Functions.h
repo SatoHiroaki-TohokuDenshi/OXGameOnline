@@ -1,7 +1,8 @@
 #pragma once
 
 // ƒvƒƒgƒ^ƒCƒvéŒ¾
-void PlayGame(int& sock);					// ƒQ[ƒ€‚ğ—V‚Ô
+void PlayServer(int& sock);					// ƒQ[ƒ€‚ğ—V‚Ô
+void PlayClient(int& sock);					// ƒQ[ƒ€‚ğ—V‚Ô
 bool Send(int sock, unsigned int value);	// 
 bool Recv(int sock, unsigned int* value);	// 
 

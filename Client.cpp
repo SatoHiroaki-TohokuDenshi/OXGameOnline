@@ -1,7 +1,8 @@
 #include "Client.h"
+#include <iostream>
+#include <string>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
-#include <iostream>
 
 #include "OXGame.h"
 
@@ -51,7 +52,10 @@ bool Client::Initialize() {
 	memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = htons(SERVERPORT);
-	inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
+	std::cout << "Input Server Address : ";
+	std::string sAddress;
+	std::cin >> sAddress;
+	inet_pton(AF_INET, sAddress.c_str(), &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
 
 	//接続要求
 	if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) != 0) {
@@ -97,7 +101,10 @@ bool Client::Initialize(unsigned short p) {
 	memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = htons(p);
-	inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
+	std::cout << "Input Server Address : ";
+	std::string sAddress;
+	std::cin >> sAddress;
+	inet_pton(AF_INET, sAddress.c_str(), &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
 
 	//接続要求
 	if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) != 0) {

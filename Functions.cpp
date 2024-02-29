@@ -2,6 +2,7 @@
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <iostream>
+#include <string>
 
 #include "OXGame.h"
 
@@ -10,7 +11,7 @@
 // ポート番号
 const unsigned short SERVERPORT = 8888;
 
-int Server() {
+int Client() {
 	std::cout << "Send Int Client" << std::endl;
 
 	// WinSock初期化
@@ -39,7 +40,10 @@ int Server() {
 	memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = htons(SERVERPORT);
-	inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
+	std::string SA;
+	std::cout << "Input Server Address : ";
+	std::cin >> SA;
+	inet_pton(AF_INET, SA.c_str(), &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
 
 	// 接続要求
 	if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) != 0) {
@@ -75,7 +79,7 @@ int Server() {
 	return 0;
 }
 
-int Client() {
+int Server() {
 	std::cout << "Send Int Server" << std::endl;
 
 	// WinSock初期化

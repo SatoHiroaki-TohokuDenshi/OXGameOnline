@@ -162,7 +162,7 @@ bool Client::Send(unsigned int value) {
 	int sendValue = htonl(value);	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
 	int ret;						// 成否の判定用
 	//送信
-	ret = send(socket_, (char*)&sendValue, sizeof(sendValue), 0);
+	ret = send((SOCKET)socket_, (char*)&sendValue, sizeof(sendValue), 0);
 	//失敗
 	if (ret != sizeof(sendValue)) {
 		return false;
@@ -176,7 +176,7 @@ bool Client::Recv(unsigned int* value) {
 	int recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
 	int ret;		// 成否の判定用
 	//受信
-	ret = recv(socket_, (char*)&recvValue, sizeof(recvValue), 0);
+	ret = recv((SOCKET)socket_, (char*)&recvValue, sizeof(recvValue), 0);
 	//失敗
 	if (ret != sizeof(recvValue)) {
 		return false;

@@ -200,7 +200,7 @@ bool Server::Send(unsigned int value) {
 	int sendValue = htonl(value);	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
 	int ret;						// 成否判定
 	//送信
-	ret = send(clientSock_, (char*)&sendValue, sizeof(sendValue), 0);
+	ret = send((SOCKET)clientSock_, (char*)&sendValue, sizeof(sendValue), 0);
 	//失敗
 	if (ret != sizeof(sendValue)) {
 		return false;
@@ -215,7 +215,7 @@ bool Server::Recv(unsigned int* value) {
 	int ret;			// 成否判定
 
 	//受信
-	ret = recv(clientSock_, (char*)&recvValue, sizeof(recvValue), 0);
+	ret = recv((SOCKET)clientSock_, (char*)&recvValue, sizeof(recvValue), 0);
 	//失敗
 	if (ret != sizeof(recvValue)) {
 		return false;

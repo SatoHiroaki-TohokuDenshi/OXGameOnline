@@ -94,9 +94,9 @@ bool Client::Initialize(unsigned short p) {
 
 	//接続先サーバのソケットアドレス情報設定
 	struct sockaddr_in serverAddr;
-	memset(&serverAddr, 0, sizeof(p));
+	memset(&serverAddr, 0, sizeof(serverAddr));
 	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_port = htons(SERVERPORT);
+	serverAddr.sin_port = htons(p);
 	inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr.s_addr);	// ほんとはよくない。せめて127.0.0.1を定数化
 
 	//接続要求
@@ -122,14 +122,14 @@ void Client::PlayGame() {
 		ox.Print();
 		value = ox.Input();
 		ox.UpdateMySide(value);
-		IsSuccess = Send(socket_, value);
+		IsSuccess = Send(value);
 		if (!IsSuccess)	break;
 		if (ox.IsFinish())	break;
 
 		// 相手の入力
 		std::system("cls");
 		ox.Print();
-		IsSuccess = Recv(socket_, &value);
+		IsSuccess = Recv(&value);
 		if (!IsSuccess)	break;
 		ox.UpdateOtherSide(value);
 		if (ox.IsFinish())	break;
@@ -147,31 +147,31 @@ void Client::PlayGame() {
 	}
 }
 
-bool Client::Send(int sock, unsigned int value) {
+bool Client::Send(unsigned int value) {
 	int sendValue = htonl(value);	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
-	int ret;		// 成否の判定用
-	// 送信
-	ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
-	// 失敗
+	int ret;						// 成否の判定用
+	//送信
+	ret = send(socket_, (char*)&sendValue, sizeof(sendValue), 0);
+	//失敗
 	if (ret != sizeof(sendValue)) {
 		return false;
 	}
 
-	// 成功
+	//成功
 	return true;
 }
 
-bool Client::Recv(int sock, unsigned int* value) {
+bool Client::Recv(unsigned int* value) {
 	int recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
 	int ret;		// 成否の判定用
-	// 受信
-	ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
-	// 失敗
+	//受信
+	ret = recv(socket_, (char*)&recvValue, sizeof(recvValue), 0);
+	//失敗
 	if (ret != sizeof(recvValue)) {
 		return false;
 	}
 
-	// 成功時は受信データをバイトオーダーに変換
+	//成功時は受信データをバイトオーダーに変換
 	*value = ntohl(recvValue);
 	return true;
 }

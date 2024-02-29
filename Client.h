@@ -16,10 +16,10 @@ public:
 	void PlayGame();
 
 	//‘—M
-	bool Send(int sock, unsigned int value);
+	bool Send(unsigned int value);
 
 	//óM
-	bool Recv(int sock, unsigned int* value);
+	bool Recv(unsigned int* value);
 
 	//‰ğ•ú
 	bool Release();

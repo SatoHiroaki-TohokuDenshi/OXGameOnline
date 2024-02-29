@@ -164,7 +164,7 @@ void Server::PlayGame() {
 		// 相手の入力
 		std::system("cls");
 		ox.Print();
-		IsSuccess = Recv(clientSock_, &value);
+		IsSuccess = Recv(&value);
 		if (!IsSuccess)	break;
 		ox.UpdateOtherSide(value);
 		if (ox.IsFinish())	break;
@@ -174,7 +174,7 @@ void Server::PlayGame() {
 		ox.Print();
 		value = ox.Input();
 		ox.UpdateMySide(value);
-		IsSuccess = Send(clientSock_, value);
+		IsSuccess = Send(value);
 		if (!IsSuccess)	break;
 		if (ox.IsFinish())	break;
 	}
@@ -191,11 +191,11 @@ void Server::PlayGame() {
 	}
 }
 
-bool Server::Send(int sock, unsigned int value) {
+bool Server::Send(unsigned int value) {
 	int sendValue = htonl(value);	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
 	int ret;						// 成否判定
 	//送信
-	ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
+	ret = send(clientSock_, (char*)&sendValue, sizeof(sendValue), 0);
 	//失敗
 	if (ret != sizeof(sendValue)) {
 		return false;
@@ -205,12 +205,12 @@ bool Server::Send(int sock, unsigned int value) {
 	return true;
 }
 
-bool Server::Recv(int sock, unsigned int* value) {
+bool Server::Recv(unsigned int* value) {
 	int recvValue = 0;	// 受信データの格納領域...ネットワークバイトオーダー状態
 	int ret;			// 成否判定
 
 	//受信
-	ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+	ret = recv(clientSock_, (char*)&recvValue, sizeof(recvValue), 0);
 	//失敗
 	if (ret != sizeof(recvValue)) {
 		return false;
